@@ -433,23 +433,29 @@ body {
 }
 
 .card-emoji {
-  font-size: 26px;
+  font-size: 22px;
 }
 
 .card-title-text {
   font-weight: bold;
-  font-size: 22px;
+  font-size: 17px;
   color: var(--text-main);
-  line-height: 1.1;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  max-width: 150px;
 }
 
 .card-subtitle-text {
-  font-size: 15px;
+  font-size: 13px;
   color: var(--text-muted);
-  margin-top: 4px;
+  margin-top: 2px;
   display: flex;
   align-items: center;
   gap: 4px;
+  white-space: nowrap;
 }
 
 .card-actions {
@@ -466,7 +472,7 @@ body {
 .card-progress-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--text-muted);
 }
