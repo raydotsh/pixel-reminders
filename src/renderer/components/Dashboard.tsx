@@ -93,6 +93,14 @@ export default function Dashboard() {
 
   useEffect(() => {
     loadData();
+
+    if (window.electronAPI.onDbUpdated) {
+      const unsubscribe = window.electronAPI.onDbUpdated(() => {
+        console.log('[Dashboard] Database updated, reloading...');
+        loadData();
+      });
+      return unsubscribe;
+    }
   }, []);
 
   // Quick manually log progress from dashboard

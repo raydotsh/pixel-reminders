@@ -280,6 +280,9 @@ export const webDbAPI = {
       if (idx !== -1) timerCallbacks.splice(idx, 1);
     };
   },
+  onDbUpdated: (callback: () => void) => {
+    return () => {};
+  },
 
   // Internal trigger (Web fallback scheduling)
   triggerWebReminder: (habit: Habit, completedToday: number) => {

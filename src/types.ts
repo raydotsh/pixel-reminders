@@ -63,6 +63,7 @@ export interface ElectronAPI {
   // Event listeners (IPC Renderer)
   onShowReminder: (callback: (data: { habitId: string; progress: number; goal: number; title: string; message: string }) => void) => () => void;
   onTimerUpdate: (callback: (data: { habitId: string; timeLeft: number; totalDuration: number; isFinished: boolean }) => void) => () => void;
+  onDbUpdated?: (callback: () => void) => () => void;
 }
 
 declare global {

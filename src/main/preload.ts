@@ -37,5 +37,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
     return () => {
       ipcRenderer.removeListener('timer:tick', subscription);
     };
+  },
+  
+  onDbUpdated: (callback: () => void) => {
+    const subscription = () => callback();
+    ipcRenderer.on('db:updated', subscription);
+    return () => {
+      ipcRenderer.removeListener('db:updated', subscription);
+    };
   }
 });
