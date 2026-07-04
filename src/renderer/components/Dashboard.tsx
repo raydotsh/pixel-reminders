@@ -423,47 +423,23 @@ export default function Dashboard() {
                       className="pixel-panel goal-card"
                       style={{ borderLeftColor: habit.color || 'var(--primary)' }}
                     >
-                      <div className="card-top">
-                        <div className="card-title-area">
-                          <span className="card-emoji">{habit.emoji}</span>
-                          <div>
-                            <span className="card-title-text">{habit.name}</span>
-                            <span className="card-subtitle-text">
-                              <Clock size={10} />
-                              {habit.startTime} - {habit.endTime} {habit.duration && `(${habit.duration}m timer)`}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Actions */}
-                        <div className="card-actions">
-                          <button 
-                            onClick={() => handleQuickLog(habit.id)}
-                            disabled={count >= habit.goal}
-                            className="pixel-btn"
-                          >
-                            Done
-                          </button>
-                          <button 
-                            onClick={() => handleEditClick(habit)}
-                            className="pixel-btn"
-                          >
-                            Edit
-                          </button>
-                          <button 
-                            onClick={() => handleQuickDelete(habit.id)}
-                            className="pixel-btn" 
-                            style={{ color: '#ef4444' }}
-                          >
-                            Del
-                          </button>
+                      {/* Title, Emoji & Clock */}
+                      <div className="card-title-area" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <span className="card-emoji">{habit.emoji}</span>
+                        <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flexGrow: 1 }}>
+                          <span className="card-title-text">{habit.name}</span>
+                          <span className="card-subtitle-text">
+                            <Clock size={10} style={{ flexShrink: 0 }} />
+                            {habit.startTime} - {habit.endTime} {habit.duration && `(${habit.duration}m)`}
+                          </span>
                         </div>
                       </div>
 
-                      <div className="card-progress-area">
+                      {/* Progress bar */}
+                      <div className="card-progress-section">
                         <div className="card-progress-labels">
-                          <span>{percentage}% completed</span>
-                          <span>{count} / {habit.goal}</span>
+                          <span>{percentage}% done</span>
+                          <span>{count}/{habit.goal}</span>
                         </div>
                         <div className="pixel-progress-container">
                           <div 
@@ -474,6 +450,30 @@ export default function Dashboard() {
                             }} 
                           />
                         </div>
+                      </div>
+
+                      {/* Action buttons row */}
+                      <div className="card-actions">
+                        <button 
+                          onClick={() => handleQuickLog(habit.id)}
+                          disabled={count >= habit.goal}
+                          className="pixel-btn"
+                        >
+                          Done
+                        </button>
+                        <button 
+                          onClick={() => handleEditClick(habit)}
+                          className="pixel-btn"
+                        >
+                          Edit
+                        </button>
+                        <button 
+                          onClick={() => handleQuickDelete(habit.id)}
+                          className="pixel-btn"
+                          style={{ color: '#ef4444' }}
+                        >
+                          Del
+                        </button>
                       </div>
                     </div>
                   );

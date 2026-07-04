@@ -407,8 +407,9 @@ body {
 /* Checklist / Cards Grid */
 .goals-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 340px));
+  grid-template-columns: repeat(auto-fill, minmax(210px, 240px));
   gap: 16px;
+  justify-content: center;
 }
 
 .goal-card {
@@ -417,13 +418,8 @@ body {
   flex-direction: column;
   justify-content: space-between;
   gap: 12px;
-  min-height: 130px;
-}
-
-.card-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  min-height: 160px;
+  padding: 14px;
 }
 
 .card-title-area {
@@ -445,7 +441,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
-  max-width: 150px;
+  max-width: 100%;
 }
 
 .card-subtitle-text {
@@ -462,14 +458,17 @@ body {
   display: flex;
   gap: 6px;
   align-items: center;
+  width: 100%;
 }
 
 .card-actions .pixel-btn {
-  padding: 3px 6px !important;
-  font-size: 14px !important;
+  flex: 1;
+  padding: 4px 6px !important;
+  font-size: 13px !important;
   font-family: var(--font-body) !important;
   min-height: auto !important;
   line-height: 1.1 !important;
+  justify-content: center;
   box-shadow: 0 -2px 0 -1px var(--border-color),
               0 2px 0 -1px var(--border-color),
               -2px 0 0 -1px var(--border-color),
@@ -1044,15 +1043,11 @@ html.is-electron .header-progress-box {
 }
 
 html.is-electron .goals-grid {
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 240px)) !important;
 }
 
 html.is-electron .goal-card {
-  min-height: 130px !important;
-}
-
-html.is-electron .card-top {
-  flex-direction: row !important;
+  min-height: 160px !important;
 }
 
 html.is-electron .form-grid-2 {
@@ -1089,7 +1084,7 @@ html.is-electron .animate-walk-out {
 
 /* Centered content wrapper for alignment */
 .content-container {
-  max-width: 1000px;
+  max-width: 820px;
   width: 100%;
   margin: 0 auto;
   display: flex;
