@@ -17,6 +17,9 @@ if (!window.electronAPI) {
         .catch(err => console.log('ServiceWorker registration failed:', err));
     });
   }
+} else {
+  // Running in Electron desktop app mode
+  document.documentElement.classList.add('is-electron');
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

@@ -24,6 +24,8 @@ export default function Popup({ habitId: initialHabitId, progress: initialProgre
   const [stage, setStage] = useState<'walking' | 'talking'>('walking');
   const [isExiting, setIsExiting] = useState(false);
   
+  const [showBubble, setShowBubble] = useState(true);
+  
   // Timer state for Walk timers
   const [timerState, setTimerState] = useState<{
     isActive: boolean;
@@ -124,6 +126,7 @@ export default function Popup({ habitId: initialHabitId, progress: initialProgre
   const handleDone = async () => {
     if (!habit) return;
     
+    setShowBubble(false);
     setProgress(prev => prev + 1);
     setExpression('celebrate');
     setAnimation('jump');
@@ -143,6 +146,7 @@ export default function Popup({ habitId: initialHabitId, progress: initialProgre
   const handleSnooze = (minutes: number) => {
     if (!habit) return;
     
+    setShowBubble(false);
     setExpression('sleepy');
     setMessage(`Snoozed for ${minutes}m. See you soon! 😊`);
     playRetroSound('click');
@@ -158,6 +162,7 @@ export default function Popup({ habitId: initialHabitId, progress: initialProgre
   const handleStartWalk = () => {
     if (!habit || !habit.duration) return;
     
+    setShowBubble(false);
     playRetroSound('click');
     setTimerState({
       isActive: true,
@@ -244,7 +249,7 @@ export default function Popup({ habitId: initialHabitId, progress: initialProgre
         </div>
 
         {/* Floating Bubble Panel (appears on her LEFT on screen, only when talking and not exiting) */}
-        {stage === 'talking' && !isExiting && (
+        {stage === 'talking' && !isExiting && showBubble && (
           <div className="popup-bubble-side animate-bubble-fadein">
             <div className="popup-bubble-panel">
               <span className="popup-heading">

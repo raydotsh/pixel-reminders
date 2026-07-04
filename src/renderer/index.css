@@ -890,3 +890,105 @@ body {
   }
 }
 
+/* Electron Desktop Mode overrides (restores default desktop layouts for small window widths) */
+html.is-electron body {
+  overflow: hidden !important;
+}
+
+html.is-electron .app-container {
+  flex-direction: row !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+}
+
+html.is-electron .sidebar {
+  width: 230px !important;
+  height: 100% !important;
+  border-right: 4px solid var(--border-color) !important;
+  border-top: none !important;
+  position: static !important;
+  padding: 16px !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+html.is-electron .sidebar h1, html.is-electron .sidebar span {
+  display: block !important;
+}
+
+html.is-electron .sidebar-menu {
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+html.is-electron .sidebar-menu li button {
+  padding: 8px 12px !important;
+  font-size: 10px !important;
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+}
+
+html.is-electron .sidebar-menu li button span {
+  display: inline !important;
+  font-size: 10px !important;
+}
+
+html.is-electron .main-content {
+  padding: 24px !important;
+  padding-bottom: 120px !important;
+}
+
+html.is-electron .dashboard-header {
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+html.is-electron .header-progress-box {
+  width: 300px !important;
+}
+
+html.is-electron .goals-grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+}
+
+html.is-electron .goal-card {
+  min-height: 130px !important;
+}
+
+html.is-electron .card-top {
+  flex-direction: row !important;
+}
+
+html.is-electron .form-grid-2 {
+  grid-template-columns: 1fr 1fr !important;
+}
+
+html.is-electron .form-grid-3 {
+  grid-template-columns: 1fr 1fr 1fr !important;
+}
+
+html.is-electron .settings-panel-grid {
+  grid-template-columns: 1fr 1fr !important;
+}
+
+html.is-electron .popup-root {
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  background-color: transparent !important;
+  padding: 16px !important;
+}
+
+html.is-electron .popup-flow {
+  flex-direction: row-reverse !important;
+  max-width: 100% !important;
+}
+
+html.is-electron .animate-walk-calmly {
+  animation: walk-calmly-left 5.5s linear forwards !important;
+}
+
+html.is-electron .animate-walk-out {
+  animation: walk-calmly-right 2.0s linear forwards !important;
+}
+
