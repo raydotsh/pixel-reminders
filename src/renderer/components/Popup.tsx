@@ -248,76 +248,82 @@ export default function Popup({ habitId: initialHabitId, progress: initialProgre
           <Companion expression={expression} character={character} scale="medium" animation={animation} />
         </div>
 
-        {/* Floating Bubble Panel (appears on her LEFT on screen, only when talking and not exiting) */}
-        {stage === 'talking' && !isExiting && showBubble && (
-          <div className="popup-bubble-side animate-bubble-fadein">
-            <div className="popup-bubble-panel">
-              <span className="popup-heading">
-                {habit.emoji} {habit.name}
-              </span>
-              <p className="popup-msg">
-                {message}
-              </p>
+        {/* Floating Bubble Panel (appears on her LEFT on screen, always in DOM to prevent layout shift) */}
+        <div 
+          className={stage === 'talking' ? "popup-bubble-side animate-bubble-fadein" : "popup-bubble-side"}
+          style={{
+            visibility: (stage === 'talking' && !isExiting && showBubble) ? 'visible' : 'hidden',
+            opacity: (stage === 'talking' && !isExiting && showBubble) ? 1 : 0,
+            pointerEvents: (stage === 'talking' && !isExiting && showBubble) ? 'auto' : 'none',
+            transition: 'opacity 0.3s ease, visibility 0.3s ease'
+          }}
+        >
+          <div className="popup-bubble-panel">
+            <span className="popup-heading">
+              {habit.emoji} {habit.name}
+            </span>
+            <p className="popup-msg">
+              {message}
+            </p>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                <div className="popup-progress-labels">
-                  <span>Today's Progress</span>
-                  <span style={{ fontFamily: 'monospace' }}>{progress} / {habit.goal}</span>
-                </div>
-                <div className="pixel-progress-container" style={{ height: '10px' }}>
-                  <div 
-                    className="pixel-progress-fill" 
-                    style={{ 
-                      width: `${Math.min(100, (progress / habit.goal) * 100)}%`,
-                      backgroundColor: habit.color || 'var(--primary)' 
-                    }} 
-                  />
-                </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <div className="popup-progress-labels">
+                <span>Today's Progress</span>
+                <span style={{ fontFamily: 'monospace' }}>{progress} / {habit.goal}</span>
               </div>
-
-              {/* Actions Row - Done and Snooze (Exactly 2 options) */}
-              <div className="popup-btn-row">
-                {!isSnoozeOpen ? (
-                  <>
-                    {habit.duration ? (
-                      <button onClick={handleStartWalk} className="pixel-btn pixel-btn-primary">
-                        Start Walk
-                      </button>
-                    ) : (
-                      <button onClick={handleDone} className="pixel-btn pixel-btn-primary">
-                        Done
-                      </button>
-                    )}
-                    <button onClick={() => setIsSnoozeOpen(true)} className="pixel-btn">
-                      Snooze
-                    </button>
-                  </>
-                ) : (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <span style={{ fontSize: '9px', fontWeight: 'bold', color: 'var(--text-muted)', marginRight: '2px' }}>Time:</span>
-                    {[5, 10, 15, 30].map(mins => (
-                      <button
-                        key={mins}
-                        onClick={() => handleSnooze(mins)}
-                        className="pixel-btn"
-                        style={{ padding: '4px 6px', fontSize: '8px' }}
-                      >
-                        {mins}m
-                      </button>
-                    ))}
-                    <button
-                      onClick={() => setIsSnoozeOpen(false)}
-                      className="pixel-btn"
-                      style={{ padding: '4px 6px', fontSize: '8px', color: 'var(--text-muted)' }}
-                    >
-                      Back
-                    </button>
-                  </div>
-                )}
+              <div className="pixel-progress-container" style={{ height: '10px' }}>
+                <div 
+                  className="pixel-progress-fill" 
+                  style={{ 
+                    width: `${Math.min(100, (progress / habit.goal) * 100)}%`,
+                    backgroundColor: habit.color || 'var(--primary)' 
+                  }} 
+                />
               </div>
             </div>
+
+            {/* Actions Row - Done and Snooze (Exactly 2 options) */}
+            <div className="popup-btn-row">
+              {!isSnoozeOpen ? (
+                <>
+                  {habit.duration ? (
+                    <button onClick={handleStartWalk} className="pixel-btn pixel-btn-primary">
+                      Start Walk
+                    </button>
+                  ) : (
+                    <button onClick={handleDone} className="pixel-btn pixel-btn-primary">
+                      Done
+                    </button>
+                  )}
+                  <button onClick={() => setIsSnoozeOpen(true)} className="pixel-btn">
+                    Snooze
+                  </button>
+                </>
+              ) : (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <span style={{ fontSize: '9px', fontWeight: 'bold', color: 'var(--text-muted)', marginRight: '2px' }}>Time:</span>
+                  {[5, 10, 15, 30].map(mins => (
+                    <button
+                      key={mins}
+                      onClick={() => handleSnooze(mins)}
+                      className="pixel-btn"
+                      style={{ padding: '4px 6px', fontSize: '8px' }}
+                    >
+                      {mins}m
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => setIsSnoozeOpen(false)}
+                    className="pixel-btn"
+                    style={{ padding: '4px 6px', fontSize: '8px', color: 'var(--text-muted)' }}
+                  >
+                    Back
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
