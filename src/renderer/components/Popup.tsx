@@ -37,6 +37,24 @@ export default function Popup({ habitId: initialHabitId, progress: initialProgre
     totalDuration: 0,
   });
 
+  const [isWide, setIsWide] = useState(typeof window !== 'undefined' && window.innerWidth > 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsWide(window.innerWidth > 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isElectron = typeof document !== 'undefined' && document.documentElement.classList.contains('is-electron');
+  const shouldAnimateWalk = isElectron || isWide;
+  const currentTransform = isExiting 
+    ? (shouldAnimateWalk ? 'translateX(380px)' : 'none') 
+    : stage === 'walking' 
+      ? (shouldAnimateWalk ? 'translateX(380px)' : 'none') 
+      : 'none';
+
   // Load Habit details
   useEffect(() => {
     const loadHabitDetails = async () => {
@@ -243,7 +261,13 @@ export default function Popup({ habitId: initialHabitId, progress: initialProgre
         {/* Companion walks in from right, stands on right side */}
         <div 
           className={isExiting ? "animate-walk-out" : stage === 'walking' ? "animate-walk-calmly" : ""}
-          style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', flexShrink: 0 }}
+          style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'flex-end', 
+            flexShrink: 0,
+            transform: currentTransform
+          }}
         >
           <Companion expression={expression} character={character} scale="medium" animation={animation} />
         </div>
