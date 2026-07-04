@@ -246,7 +246,7 @@ export default function Popup({ habitId: initialHabitId, progress: initialProgre
             }}>
               {formatTime(timerState.timeLeft)}
             </span>
-            <span style={{ fontSize: '9px', color: 'var(--text-muted)', fontWeight: 'bold' }}>Walking...</span>
+            <span style={{ fontSize: '14px', color: 'var(--text-muted)', fontWeight: 'bold' }}>Walking...</span>
           </div>
         </div>
       </div>
@@ -325,13 +325,13 @@ export default function Popup({ habitId: initialHabitId, progress: initialProgre
                 </>
               ) : (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <span style={{ fontSize: '9px', fontWeight: 'bold', color: 'var(--text-muted)', marginRight: '2px' }}>Time:</span>
+                  <span style={{ fontSize: '14px', fontWeight: 'bold', color: 'var(--text-muted)', marginRight: '2px' }}>Time:</span>
                   {[5, 10, 15, 30].map(mins => (
                     <button
                       key={mins}
                       onClick={() => handleSnooze(mins)}
                       className="pixel-btn"
-                      style={{ padding: '4px 6px', fontSize: '8px' }}
+                      style={{ padding: '4px 6px', fontSize: '13px' }}
                     >
                       {mins}m
                     </button>
@@ -339,7 +339,7 @@ export default function Popup({ habitId: initialHabitId, progress: initialProgre
                   <button
                     onClick={() => setIsSnoozeOpen(false)}
                     className="pixel-btn"
-                    style={{ padding: '4px 6px', fontSize: '8px', color: 'var(--text-muted)' }}
+                    style={{ padding: '4px 6px', fontSize: '13px', color: 'var(--text-muted)' }}
                   >
                     Back
                   </button>

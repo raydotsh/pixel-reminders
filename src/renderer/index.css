@@ -516,18 +516,18 @@ body {
 }
 
 .form-group label {
-  font-size: 11px;
+  font-size: 16px;
   font-weight: bold;
   color: var(--text-muted);
 }
 
 .form-input, .form-select, .form-textarea {
-  padding: 8px 10px;
+  padding: 8px 12px;
   background-color: var(--bg-color);
   border: 2px solid var(--border-color);
   color: var(--text-main);
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 18px;
   border-radius: 2px;
   outline: none;
 }

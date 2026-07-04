@@ -241,7 +241,7 @@ export default function Dashboard() {
             <h1 style={{ fontFamily: 'var(--font-retro)', fontSize: '12px', letterSpacing: '0.5px' }}>
               Pixel Roommate
             </h1>
-            <span style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 'bold' }}>
+            <span style={{ fontSize: '14px', color: 'var(--text-muted)', fontWeight: 'bold' }}>
               Companion Setup
             </span>
           </div>
@@ -300,7 +300,7 @@ export default function Dashboard() {
                 {activeTab === 'stats' && 'Analytics'}
                 {activeTab === 'settings' && 'Configuration'}
               </h2>
-              <p style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600', marginTop: '2px' }}>
+              <p style={{ fontSize: '15px', color: 'var(--text-muted)', fontWeight: '600', marginTop: '2px' }}>
                 {activeTab === 'goals' && 'Track your roommate goals and daily routines'}
                 {activeTab === 'add' && 'Configure custom schedules, times, and colors'}
                 {activeTab === 'stats' && 'Visual historical streaks and completion metrics'}
@@ -309,7 +309,7 @@ export default function Dashboard() {
 
               {/* Theme Circles Bar */}
               <div className="theme-selector-bar">
-                <span style={{ fontSize: '10px', fontWeight: 'bold', color: 'var(--text-muted)', textTransform: 'uppercase', marginRight: '4px' }}>Theme:</span>
+                <span style={{ fontSize: '14px', fontWeight: 'bold', color: 'var(--text-muted)', textTransform: 'uppercase', marginRight: '4px' }}>Theme:</span>
                 {[
                   { name: 'creme', color: '#faf5ed', borderColor: '#4e3629', label: 'Creme' },
                   { name: 'green', color: '#edf7ed', borderColor: '#2b3e34', label: 'Sage' },
@@ -387,13 +387,13 @@ export default function Dashboard() {
                 padding: '12px 16px',
                 backgroundColor: 'var(--panel-bg)',
                 boxShadow: 'var(--pixel-border)',
-                fontSize: '11px',
+                fontSize: '15px',
                 lineHeight: '1.4',
                 color: 'var(--text-main)',
                 borderRadius: '2px',
                 margin: '8px'
               }}>
-                <span style={{ fontSize: '14px' }}>💡</span>
+                <span style={{ fontSize: '18px' }}>💡</span>
                 <div>
                   <span style={{ fontWeight: 'bold', color: 'var(--primary)' }}>Mobile Reminders: </span>
                   For background notifications on mobile, add this page to your Home Screen (tap Share/Menu &rarr; "Add to Home Screen"). Reminders will run while the app is open or active.
@@ -404,7 +404,7 @@ export default function Dashboard() {
             {habits.length === 0 ? (
               <div className="pixel-panel" style={{ textAlign: 'center', padding: '40px' }}>
                 <h3 style={{ fontSize: '14px', marginBottom: '8px' }}>No habits registered!</h3>
-                <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '20px' }}>
+                <p style={{ fontSize: '16px', color: 'var(--text-muted)', marginBottom: '20px' }}>
                   Click Add Habit to schedule reminders and bring your roommate to life.
                 </p>
                 <button onClick={() => setActiveTab('add')} className="pixel-btn pixel-btn-primary">
@@ -588,7 +588,7 @@ export default function Dashboard() {
                       onChange={e => setHabitForm(prev => ({ ...prev, color: e.target.value }))}
                       style={{ width: '36px', height: '36px', border: '2px solid var(--border-color)', cursor: 'pointer' }}
                     />
-                    <span style={{ fontSize: '11px', fontFamily: 'monospace', fontWeight: 'bold' }}>
+                    <span style={{ fontSize: '15px', fontFamily: 'monospace', fontWeight: 'bold' }}>
                       {habitForm.color.toUpperCase()}
                     </span>
                   </div>
@@ -599,7 +599,7 @@ export default function Dashboard() {
               <div className="form-group">
                 <label>Scheduling Mode</label>
                 <div style={{ display: 'flex', gap: '20px', marginTop: '6px' }}>
-                  <label className="checkbox-label" style={{ fontSize: '12px', fontWeight: 'bold' }}>
+                  <label className="checkbox-label" style={{ fontSize: '16px', fontWeight: 'bold' }}>
                     <input
                       type="radio"
                       name="scheduleMode"
@@ -613,7 +613,7 @@ export default function Dashboard() {
                     />
                     <span>Automatic (Distribute Evenly)</span>
                   </label>
-                  <label className="checkbox-label" style={{ fontSize: '12px', fontWeight: 'bold' }}>
+                  <label className="checkbox-label" style={{ fontSize: '16px', fontWeight: 'bold' }}>
                     <input
                       type="radio"
                       name="scheduleMode"
@@ -648,7 +648,7 @@ export default function Dashboard() {
                   }}>
                     {Array.from({ length: habitForm.goal }).map((_, index) => (
                       <div key={index} style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                        <span style={{ fontSize: '9px', fontWeight: 'bold', color: 'var(--text-muted)' }}>
+                        <span style={{ fontSize: '14px', fontWeight: 'bold', color: 'var(--text-muted)' }}>
                           Time #{index + 1}
                         </span>
                         <input
@@ -661,7 +661,7 @@ export default function Dashboard() {
                             setCustomTimes(updated);
                           }}
                           className="form-input"
-                          style={{ padding: '4px 6px', fontSize: '11px' }}
+                          style={{ padding: '6px 8px', fontSize: '18px' }}
                         />
                       </div>
                     ))}
@@ -733,7 +733,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className="pixel-panel stats-chart-card">
-                  <h3 style={{ fontFamily: 'var(--font-retro)', fontSize: '10px', marginBottom: '16px' }}>
+                  <h3 style={{ fontFamily: 'var(--font-retro)', fontSize: '14px', marginBottom: '16px' }}>
                     Completion Rates Analytics
                   </h3>
                   <div className="stats-chart-group">
