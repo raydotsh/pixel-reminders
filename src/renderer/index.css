@@ -734,3 +734,159 @@ body {
   padding: 6px 10px;
   font-size: 8px;
 }
+
+/* Mobile Responsive Overrides */
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto;
+  }
+
+  .app-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: 64px;
+    border-right: none;
+    border-top: 4px solid var(--border-color);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 6px 12px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 100;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+  }
+
+  .sidebar > div {
+    width: 100%;
+  }
+
+  .sidebar h1, .sidebar span {
+    display: none;
+  }
+
+  .sidebar-menu {
+    flex-direction: row;
+    gap: 8px;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .sidebar-menu li {
+    flex: 1;
+  }
+
+  .sidebar-menu li button {
+    padding: 6px;
+    font-size: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar-menu li button span {
+    display: inline;
+    font-size: 8px;
+  }
+
+  .main-content {
+    padding: 16px;
+    padding-bottom: 200px !important;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding-bottom: 12px;
+  }
+
+  .header-progress-box {
+    width: 100%;
+  }
+
+  .goals-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .goal-card {
+    min-height: auto;
+    padding: 12px;
+  }
+
+  .card-top {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card-actions {
+    align-self: flex-end;
+  }
+
+  .form-grid-2, .form-grid-3, .settings-panel-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .dashboard-roommate-guide {
+    bottom: 80px;
+    right: 16px;
+  }
+
+  .guide-speech-bubble {
+    font-size: 10px;
+    padding: 6px 10px;
+    max-width: 140px;
+  }
+
+  /* Char Popup Mobile Adjustments */
+  .popup-root {
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background-color: rgba(0, 0, 0, 0.45) !important;
+  }
+
+  .popup-flow {
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .popup-bubble-side {
+    width: 100%;
+  }
+
+  .popup-bubble-panel {
+    padding: 16px;
+    box-shadow: var(--pixel-border);
+  }
+
+  .popup-btn-row {
+    margin-top: 4px;
+  }
+
+  /* Disable translate-walk on mobile to fit narrow screens */
+  .animate-walk-calmly {
+    animation: pixel-idle-breathe 2s infinite ease-in-out;
+  }
+  .animate-walk-out {
+    animation: pixel-idle-breathe 2s infinite ease-in-out;
+  }
+}
+

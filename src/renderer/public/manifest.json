@@ -1,0 +1,22 @@
+{
+  "name": "Pixel Companion",
+  "short_name": "Pixel Companion",
+  "description": "A cozy pixel-art desktop & mobile reminder companion",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#faf5ed",
+  "theme_color": "#d97706",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

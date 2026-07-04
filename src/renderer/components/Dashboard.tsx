@@ -319,6 +319,29 @@ export default function Dashboard() {
               </div>
             )}
 
+            {/* Mobile PWA Installation Tip */}
+            {(window.electronAPI as any).triggerWebReminder !== undefined && (
+              <div style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '10px',
+                padding: '12px 16px',
+                backgroundColor: 'var(--panel-bg)',
+                boxShadow: 'var(--pixel-border)',
+                fontSize: '11px',
+                lineHeight: '1.4',
+                color: 'var(--text-main)',
+                borderRadius: '2px',
+                margin: '8px'
+              }}>
+                <span style={{ fontSize: '14px' }}>💡</span>
+                <div>
+                  <span style={{ fontWeight: 'bold', color: 'var(--primary)' }}>Mobile Reminders: </span>
+                  For background notifications on mobile, add this page to your Home Screen (tap Share/Menu &rarr; "Add to Home Screen"). Reminders will run while the app is open or active.
+                </div>
+              </div>
+            )}
+
             {habits.length === 0 ? (
               <div className="pixel-panel" style={{ textAlign: 'center', padding: '40px' }}>
                 <h3 style={{ fontSize: '14px', marginBottom: '8px' }}>No habits registered!</h3>

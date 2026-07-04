@@ -131,7 +131,7 @@ export default function App() {
       }
 
       lastCheckTimestamp = now;
-    }, 10000);
+    }, 1000);
 
     return () => clearInterval(checkInterval);
   }, []);

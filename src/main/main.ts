@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, Tray, Menu, screen, nativeImage } from 'electron';
+import { app, BrowserWindow, ipcMain, Tray, Menu, screen, nativeImage, Notification } from 'electron';
 import path from 'path';
 import * as storage from './storage';
 import * as scheduler from './scheduler';
@@ -9,7 +9,7 @@ let popupWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
 let schedulerInterval: NodeJS.Timeout | null = null;
 
-const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
+const isDev = process.argv.includes('--dev') || process.env.NODE_ENV === 'development';
 const VITE_DEV_SERVER_URL = 'http://localhost:5173';
 
 // Base64 red pixel-art heart icon for the system tray (16x16)
@@ -63,7 +63,7 @@ function createDashboardWindow() {
     dashboardWindow.loadURL(`${VITE_DEV_SERVER_URL}/#/dashboard`);
     dashboardWindow.webContents.openDevTools();
   } else {
-    dashboardWindow.loadFile(path.join(__dirname, '../dist/index.html'), { hash: '/dashboard' });
+    dashboardWindow.loadFile(path.join(__dirname, '../../dist/index.html'), { hash: '/dashboard' });
   }
 
   dashboardWindow.once('ready-to-show', () => {
@@ -115,6 +115,12 @@ function createPopupWindow() {
 }
 
 function showReminderPopup(habit: Habit) {
+  // If a popup is already active, close/destroy it first to ensure clean state
+  if (popupWindow && !popupWindow.isDestroyed()) {
+    popupWindow.destroy();
+    popupWindow = null;
+  }
+
   const win = createPopupWindow();
   
   // Calculate logs/progress for today
@@ -124,13 +130,13 @@ function showReminderPopup(habit: Habit) {
 
   const url = isDev 
     ? `${VITE_DEV_SERVER_URL}/#/popup?habitId=${habit.id}&progress=${completedToday}&goal=${habit.goal}`
-    : `file://${path.join(__dirname, '../dist/index.html')}#/popup?habitId=${habit.id}&progress=${completedToday}&goal=${habit.goal}`;
+    : `file://${path.join(__dirname, '../../dist/index.html')}#/popup?habitId=${habit.id}&progress=${completedToday}&goal=${habit.goal}`;
 
   // Make sure to load URL
   if (isDev) {
     win.loadURL(`${VITE_DEV_SERVER_URL}/#/popup?habitId=${habit.id}&progress=${completedToday}&goal=${habit.goal}`);
   } else {
-    win.loadFile(path.join(__dirname, '../dist/index.html'), { 
+    win.loadFile(path.join(__dirname, '../../dist/index.html'), { 
       hash: `/popup?habitId=${habit.id}&progress=${completedToday}&goal=${habit.goal}` 
     });
   }
@@ -154,6 +160,25 @@ function showReminderPopup(habit: Habit) {
       message: habit.message || `Time for ${habit.name}!`
     });
   });
+
+  // Show native OS notification toast on desktop
+  const notification = new Notification({
+    title: `${habit.emoji} ${habit.name}`,
+    body: habit.message || `Time for ${habit.name}!`,
+    icon: nativeImage.createFromDataURL(TRAY_ICON_BASE64),
+    silent: !settings.sounds
+  });
+
+  notification.on('click', () => {
+    if (popupWindow && !popupWindow.isDestroyed()) {
+      popupWindow.show();
+      popupWindow.focus();
+    } else {
+      showReminderPopup(habit);
+    }
+  });
+
+  notification.show();
 }
 
 function createTray() {
@@ -198,7 +223,7 @@ function createTray() {
 function startScheduler() {
   if (schedulerInterval) return;
 
-  // Run scheduler check every 10 seconds
+  // Run scheduler check every 1 second (1000ms) for high precision with no delay
   schedulerInterval = setInterval(() => {
     scheduler.checkReminders(
       (habit) => {
@@ -216,13 +241,23 @@ function startScheduler() {
         
         if (isFinished) {
           // Play complete sound or trigger notification
+          const habit = storage.getHabits().find(h => h.id === timer.habitId);
+          const settings = storage.getSettings();
+          if (habit) {
+            new Notification({
+              title: `🎉 Walk Completed!`,
+              body: `Great job completing your ${habit.name} walk!`,
+              icon: nativeImage.createFromDataURL(TRAY_ICON_BASE64),
+              silent: !settings.sounds
+            }).show();
+          }
           if (dashboardWindow && !dashboardWindow.isDestroyed()) {
             dashboardWindow.webContents.send('db:updated');
           }
         }
       }
     );
-  }, 10000);
+  }, 1000);
 }
 
 function stopScheduler() {
@@ -336,6 +371,11 @@ function registerIpcHandlers() {
 app.whenReady().then(() => {
   // Ensure DB path initialized
   storage.loadData();
+  
+  // Set App User Model ID for Windows Notifications
+  if (process.platform === 'win32') {
+    app.setAppUserModelId('com.pixel-companion');
+  }
   
   createTray();
   registerIpcHandlers();
