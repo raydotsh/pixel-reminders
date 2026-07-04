@@ -199,6 +199,30 @@ export default function Dashboard() {
     loadData();
   };
 
+  const handleThemeChange = async (themeName: 'creme' | 'green' | 'pink' | 'white' | 'dark') => {
+    if (!settings) return;
+    playRetroSound('click');
+    const updatedSettings: Settings = {
+      ...settings,
+      theme: themeName
+    };
+    setSettings(updatedSettings);
+    if (settingsForm) {
+      setSettingsForm(updatedSettings);
+    }
+    await window.electronAPI.saveSettings(updatedSettings);
+    
+    // Apply theme immediately on web fallback
+    const root = document.documentElement;
+    root.classList.remove('theme-creme', 'theme-green', 'theme-pink', 'theme-white', 'theme-dark', 'dark');
+    root.classList.add(`theme-${themeName}`);
+    if (themeName === 'dark') {
+      root.classList.add('dark');
+    }
+    
+    loadData();
+  };
+
   const getCompletedCount = (habitId: string) => {
     return progressLogs.filter(l => l.habitId === habitId && l.status === 'completed').length;
   };
@@ -282,6 +306,33 @@ export default function Dashboard() {
                 {activeTab === 'stats' && 'Visual historical streaks and completion metrics'}
                 {activeTab === 'settings' && 'Tune visual scaling, positions, themes, and sound settings'}
               </p>
+
+              {/* Theme Circles Bar */}
+              <div className="theme-selector-bar">
+                <span style={{ fontSize: '10px', fontWeight: 'bold', color: 'var(--text-muted)', textTransform: 'uppercase', marginRight: '4px' }}>Theme:</span>
+                {[
+                  { name: 'creme', color: '#faf5ed', borderColor: '#4e3629', label: 'Creme' },
+                  { name: 'green', color: '#edf7ed', borderColor: '#2b3e34', label: 'Sage' },
+                  { name: 'pink', color: '#fff0f5', borderColor: '#5c3b47', label: 'Sakura' },
+                  { name: 'white', color: '#ffffff', borderColor: '#212529', label: 'White' },
+                  { name: 'dark', color: '#1a120b', borderColor: '#fcecd8', label: 'Dark' }
+                ].map(t => {
+                  const currentTheme = ['creme', 'green', 'pink', 'white', 'dark'].includes(settings?.theme || '') ? settings?.theme : 'creme';
+                  const isActive = currentTheme === t.name;
+                  return (
+                    <button
+                      key={t.name}
+                      onClick={() => handleThemeChange(t.name as any)}
+                      className={`theme-circle-btn ${isActive ? 'active' : ''}`}
+                      title={t.label}
+                      style={{
+                        backgroundColor: t.color,
+                        border: `2px solid ${t.borderColor}`,
+                      }}
+                    />
+                  );
+                })}
+              </div>
             </div>
           </div>
 
@@ -307,7 +358,7 @@ export default function Dashboard() {
 
         {/* TAB: GOALS */}
         {activeTab === 'goals' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div className="content-container">
             {stats && stats.currentStreak > 0 && (
               <div style={{
                 display: 'flex',
@@ -434,7 +485,8 @@ export default function Dashboard() {
 
         {/* TAB: ADD / EDIT HABIT */}
         {activeTab === 'add' && (
-          <div className="pixel-panel form-card">
+          <div className="content-container">
+            <div className="pixel-panel form-card">
             <form onSubmit={handleHabitSubmit}>
               <div className="form-grid-2">
                 <div className="form-group">
@@ -645,11 +697,12 @@ export default function Dashboard() {
               </div>
             </form>
           </div>
+          </div>
         )}
 
         {/* TAB: STATISTICS */}
         {activeTab === 'stats' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div className="content-container">
             {stats ? (
               <>
                 <div className="stats-cards-grid">
@@ -735,22 +788,34 @@ export default function Dashboard() {
 
         {/* TAB: SETTINGS */}
         {activeTab === 'settings' && settingsForm && (
-          <div className="pixel-panel" style={{ maxWidth: '600px' }}>
+          <div className="content-container">
+            <div className="pixel-panel" style={{ maxWidth: '600px' }}>
             <div className="settings-panel-grid">
               <div className="form-group">
                 <label>Visual Mode Theme</label>
                 <select
                   value={settingsForm.theme}
                   onChange={e => {
-                    const newS = { ...settingsForm, theme: e.target.value as any };
+                    const themeValue = e.target.value as any;
+                    const newS = { ...settingsForm, theme: themeValue };
                     setSettingsForm(newS);
                     handleSettingsSave(newS);
+                    
+                    // Force apply theme immediately
+                    const root = document.documentElement;
+                    root.classList.remove('theme-creme', 'theme-green', 'theme-pink', 'theme-white', 'theme-dark', 'dark');
+                    root.classList.add(`theme-${themeValue}`);
+                    if (themeValue === 'dark') {
+                      root.classList.add('dark');
+                    }
                   }}
                   className="form-select"
                 >
-                  <option value="light">Cozy Warm</option>
-                  <option value="dark">Cozy Midnight</option>
-                  <option value="auto">System Default</option>
+                  <option value="creme">Creme (Cozy Warm)</option>
+                  <option value="green">Sage (Pastel Green)</option>
+                  <option value="pink">Sakura (Pastel Pink)</option>
+                  <option value="white">White (Minimalist)</option>
+                  <option value="dark">Cozy Midnight (Dark)</option>
                 </select>
               </div>
 
@@ -856,6 +921,7 @@ export default function Dashboard() {
                 />
                 <span>Register app to boot with Windows startup</span>
               </label>
+            </div>
             </div>
           </div>
         )}

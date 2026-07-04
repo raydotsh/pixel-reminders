@@ -48,6 +48,26 @@ export default function App() {
     fetchSettings();
   }, [route]);
 
+  // Global settings change listener
+  useEffect(() => {
+    const refreshSettings = async () => {
+      try {
+        const s = await window.electronAPI.getSettings();
+        setSettings(s);
+        applyTheme(s.theme);
+      } catch (err) {
+        console.error('Failed to refresh settings', err);
+      }
+    };
+
+    if (window.electronAPI.onDbUpdated) {
+      const unsubscribe = window.electronAPI.onDbUpdated(() => {
+        refreshSettings();
+      });
+      return unsubscribe;
+    }
+  }, []);
+
   // Web-only scheduler loop (runs only when triggerWebReminder is present, i.e., Browser Mode)
   useEffect(() => {
     const isBrowser = (window.electronAPI as any).triggerWebReminder !== undefined;
@@ -68,18 +88,7 @@ export default function App() {
       if (habit.customTimes && habit.customTimes.length > 0) {
         return habit.customTimes.map(parseTimeToMinutes).sort((a: number, b: number) => a - b);
       }
-      const startMin = parseTimeToMinutes(habit.startTime);
-      const endMin = parseTimeToMinutes(habit.endTime);
-      let diff = endMin - startMin;
-      if (diff <= 0) diff += 24 * 60;
-      const goal = habit.goal;
-      if (goal <= 0) return [];
-      const interval = diff / goal;
-      const minutes: number[] = [];
-      for (let i = 1; i <= goal; i++) {
-        minutes.push(Math.round((startMin + i * interval) % (24 * 60)));
-      }
-      return minutes.sort((a, b) => a - b);
+      return [];
     };
 
     const checkInterval = setInterval(async () => {
@@ -111,18 +120,8 @@ export default function App() {
             }
 
             if (triggered) {
-              const completedToday = logs.filter(l => l.habitId === habit.id && l.status === 'completed').length;
-              
-              // Trigger hash route change to show popup screen
-              window.location.hash = `#/popup?habitId=${habit.id}&progress=${completedToday}&goal=${habit.goal}`;
-
-              // Trigger standard browser push notification
-              if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-                new Notification(`${habit.emoji} ${habit.name}`, {
-                  body: habit.message || `Time to complete your goal!`,
-                  requireInteraction: true
-                });
-              }
+              const completedToday = logs.filter((l: any) => l.habitId === habit.id && l.status === 'completed').length;
+              (window.electronAPI as any).triggerWebReminder(habit, completedToday);
             }
           }
         }
@@ -136,20 +135,27 @@ export default function App() {
     return () => clearInterval(checkInterval);
   }, []);
 
-  const applyTheme = (theme: 'light' | 'dark' | 'auto') => {
+  const applyTheme = (theme: string) => {
     const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else if (theme === 'light') {
-      root.classList.remove('dark');
-    } else {
-      // Auto
+    
+    // Remove all previous theme classes
+    root.classList.remove('theme-creme', 'theme-green', 'theme-pink', 'theme-white', 'theme-dark', 'dark');
+    
+    // Fallback/normalization
+    let activeTheme = theme;
+    if (theme === 'light') activeTheme = 'creme';
+    else if (theme === 'auto') {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (prefersDark) {
-        root.classList.add('dark');
-      } else {
-        root.classList.remove('dark');
-      }
+      activeTheme = prefersDark ? 'dark' : 'creme';
+    } else if (!['creme', 'green', 'pink', 'white', 'dark'].includes(theme)) {
+      activeTheme = 'creme';
+    }
+    
+    root.classList.add(`theme-${activeTheme}`);
+    
+    // Add legacy .dark class compatibility
+    if (activeTheme === 'dark') {
+      root.classList.add('dark');
     }
   };
 

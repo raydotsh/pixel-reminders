@@ -28,7 +28,7 @@ export interface Settings {
   scale: 'small' | 'medium' | 'large';
   speed: number; // animation speed multiplier
   sounds: boolean;
-  theme: 'light' | 'dark' | 'auto';
+  theme: 'creme' | 'green' | 'pink' | 'white' | 'dark' | 'light' | 'auto';
   snoozeDefaults: number[]; // defaults like [5, 10, 15, 30]
   character: 'girl' | 'boy' | 'cat';
 }

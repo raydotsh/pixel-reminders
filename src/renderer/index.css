@@ -17,7 +17,7 @@
   /* Fonts */
   --font-retro: 'Press Start 2P', monospace;
   --font-pixel: 'VT323', monospace;
-  --font-body: 'Outfit', sans-serif;
+  --font-body: 'VT323', monospace;
   
   /* Pixel Border */
   --pixel-border: 
@@ -56,15 +56,87 @@
     0 0 0 2px var(--border-color);
 }
 
+/* Creme Theme (Default Light JRPG beige) */
+.theme-creme {
+  --bg-color: #faf5ed;
+  --panel-bg: #fffcf7;
+  --panel-bg-hover: #fcf6e8;
+  --border-color: #4e3629;
+  --text-main: #3a251c;
+  --text-muted: #7d6559;
+  --primary: #d97706;
+  --primary-hover: #b45309;
+  --accent: #ec4899;
+  --shadow-color: rgba(78, 54, 41, 0.15);
+}
+
+/* Green Theme (Pastel Sage/Mint) */
+.theme-green {
+  --bg-color: #edf7ed;
+  --panel-bg: #f5fbf5;
+  --panel-bg-hover: #e8f3e8;
+  --border-color: #2b3e34;
+  --text-main: #1c2b22;
+  --text-muted: #53695d;
+  --primary: #2e7d32;
+  --primary-hover: #1b5e20;
+  --accent: #d97706;
+  --shadow-color: rgba(43, 62, 52, 0.15);
+}
+
+/* Pink Theme (Pastel Sakura) */
+.theme-pink {
+  --bg-color: #fff0f5;
+  --panel-bg: #fffafc;
+  --panel-bg-hover: #fff3f7;
+  --border-color: #5c3b47;
+  --text-main: #3d222e;
+  --text-muted: #8c6a78;
+  --primary: #ec4899;
+  --primary-hover: #db2777;
+  --accent: #8b5cf6;
+  --shadow-color: rgba(92, 59, 71, 0.15);
+}
+
+/* White Theme (Clean minimalist) */
+.theme-white {
+  --bg-color: #ffffff;
+  --panel-bg: #f8f9fa;
+  --panel-bg-hover: #f1f3f5;
+  --border-color: #212529;
+  --text-main: #212529;
+  --text-muted: #6c757d;
+  --primary: #495057;
+  --primary-hover: #343a40;
+  --accent: #228be6;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Dark Theme */
+.theme-dark {
+  --bg-color: #1a120b;
+  --panel-bg: #271a10;
+  --panel-bg-hover: #332316;
+  --border-color: #fcecd8;
+  --text-main: #fcf6ee;
+  --text-muted: #caa692;
+  --primary: #fbbf24;
+  --primary-hover: #f59e0b;
+  --accent: #f472b6;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-input, textarea, select {
+input, textarea, select, button {
   user-select: text !important;
   -webkit-user-select: text !important;
+  font-family: var(--font-body);
+  font-size: inherit;
 }
 
 body {
@@ -74,6 +146,8 @@ body {
   overflow: hidden;
   image-rendering: pixelated;
   transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 19px;
+  font-weight: 500;
 }
 
 /* Scrollbar styling - pixel style */
@@ -333,7 +407,7 @@ body {
 /* Checklist / Cards Grid */
 .goals-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 340px));
   gap: 16px;
 }
 
@@ -995,5 +1069,51 @@ html.is-electron .animate-walk-calmly {
 
 html.is-electron .animate-walk-out {
   animation: walk-calmly-right 2.0s linear forwards !important;
+}
+
+/* Centered content wrapper for alignment */
+.content-container {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Theme selector bar and buttons styling */
+.theme-selector-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  width: fit-content;
+}
+
+.theme-circle-btn {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.1s ease;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.theme-circle-btn:hover {
+  transform: scale(1.2);
+}
+
+.theme-circle-btn.active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--border-color);
 }
 
