@@ -66,7 +66,7 @@ export default function Popup({ habitId: initialHabitId, progress: initialProgre
         const found = habits.find(h => h.id === initialHabitId);
         if (found) {
           setHabit(found);
-          setMessage(found.message || `Time for ${found.name}!`);
+          setMessage(found.message || `Time to ${found.name.toLowerCase()}!`);
           setExpression('neutral');
           setAnimation('idle'); // Breathing while walking
           setCharacter(settings.character || 'girl');

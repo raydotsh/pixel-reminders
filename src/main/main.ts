@@ -162,7 +162,7 @@ function showReminderPopup(habit: Habit) {
       progress: completedToday,
       goal: habit.goal,
       title: habit.emoji + ' ' + habit.name,
-      message: habit.message || `Time for ${habit.name}!`
+      message: habit.message || `Time to ${habit.name.toLowerCase()}!`
     });
   });
 
@@ -170,7 +170,7 @@ function showReminderPopup(habit: Habit) {
   console.log('[Popup] Showing native desktop notification.');
   const notification = new Notification({
     title: `${habit.emoji} ${habit.name}`,
-    body: habit.message || `Time for ${habit.name}!`,
+    body: habit.message || `Time to ${habit.name.toLowerCase()}!`,
     icon: nativeImage.createFromDataURL(TRAY_ICON_BASE64),
     silent: !settings.sounds
   });

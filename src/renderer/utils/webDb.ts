@@ -291,7 +291,7 @@ export const webDbAPI = {
       progress: completedToday,
       goal: habit.goal,
       title: habit.emoji + ' ' + habit.name,
-      message: habit.message || `Time for ${habit.name}!`
+      message: habit.message || `Time to ${habit.name.toLowerCase()}!`
     }));
   }
 };
