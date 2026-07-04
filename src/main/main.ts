@@ -115,8 +115,10 @@ function createPopupWindow() {
 }
 
 function showReminderPopup(habit: Habit) {
+  console.log('[Popup] showReminderPopup called for:', habit.name);
   // If a popup is already active, close/destroy it first to ensure clean state
   if (popupWindow && !popupWindow.isDestroyed()) {
+    console.log('[Popup] Destroying existing popup window.');
     popupWindow.destroy();
     popupWindow = null;
   }
@@ -131,6 +133,8 @@ function showReminderPopup(habit: Habit) {
   const url = isDev 
     ? `${VITE_DEV_SERVER_URL}/#/popup?habitId=${habit.id}&progress=${completedToday}&goal=${habit.goal}`
     : `file://${path.join(__dirname, '../../dist/index.html')}#/popup?habitId=${habit.id}&progress=${completedToday}&goal=${habit.goal}`;
+
+  console.log('[Popup] Loading URL:', url);
 
   // Make sure to load URL
   if (isDev) {
@@ -150,6 +154,7 @@ function showReminderPopup(habit: Habit) {
   win.setPosition(x, y);
 
   win.once('ready-to-show', () => {
+    console.log('[Popup] Window ready-to-show event fired. Showing window.');
     win.show();
     // Send event to confirm
     win.webContents.send('scheduler:trigger-reminder', {
@@ -162,6 +167,7 @@ function showReminderPopup(habit: Habit) {
   });
 
   // Show native OS notification toast on desktop
+  console.log('[Popup] Showing native desktop notification.');
   const notification = new Notification({
     title: `${habit.emoji} ${habit.name}`,
     body: habit.message || `Time for ${habit.name}!`,
@@ -170,6 +176,7 @@ function showReminderPopup(habit: Habit) {
   });
 
   notification.on('click', () => {
+    console.log('[Notification] clicked. Focusing popup window.');
     if (popupWindow && !popupWindow.isDestroyed()) {
       popupWindow.show();
       popupWindow.focus();
@@ -223,10 +230,13 @@ function createTray() {
 function startScheduler() {
   if (schedulerInterval) return;
 
+  console.log('[Scheduler] Starting scheduler. Precision: 1s.');
+
   // Run scheduler check every 1 second (1000ms) for high precision with no delay
   schedulerInterval = setInterval(() => {
     scheduler.checkReminders(
       (habit) => {
+        console.log('[Scheduler] Triggering reminder callback for habit:', habit.name);
         showReminderPopup(habit);
       },
       (timer, isFinished) => {
@@ -240,6 +250,7 @@ function startScheduler() {
         }
         
         if (isFinished) {
+          console.log('[Scheduler] Walk timer completed for:', timer.habitId);
           // Play complete sound or trigger notification
           const habit = storage.getHabits().find(h => h.id === timer.habitId);
           const settings = storage.getSettings();
