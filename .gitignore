@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-electron
+out
+.DS_Store
+*.log
+db.json
+.system_generated
+.gemini
+package-lock.json
