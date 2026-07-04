@@ -433,19 +433,20 @@ body {
 }
 
 .card-emoji {
-  font-size: 20px;
+  font-size: 26px;
 }
 
 .card-title-text {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 22px;
   color: var(--text-main);
+  line-height: 1.1;
 }
 
 .card-subtitle-text {
-  font-size: 10px;
+  font-size: 15px;
   color: var(--text-muted);
-  margin-top: 2px;
+  margin-top: 4px;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -453,15 +454,10 @@ body {
 
 .card-actions {
   display: flex;
-  gap: 4px;
+  gap: 6px;
 }
 
-.card-actions .pixel-btn {
-  padding: 4px 8px;
-  font-size: 8px;
-}
-
-.card-progress-area {
+.card-progress-section {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -470,7 +466,7 @@ body {
 .card-progress-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text-muted);
 }
