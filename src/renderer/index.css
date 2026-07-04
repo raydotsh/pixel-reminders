@@ -461,6 +461,20 @@ body {
 .card-actions {
   display: flex;
   gap: 6px;
+  align-items: center;
+}
+
+.card-actions .pixel-btn {
+  padding: 3px 6px !important;
+  font-size: 14px !important;
+  font-family: var(--font-body) !important;
+  min-height: auto !important;
+  line-height: 1.1 !important;
+  box-shadow: 0 -2px 0 -1px var(--border-color),
+              0 2px 0 -1px var(--border-color),
+              -2px 0 0 -1px var(--border-color),
+              2px 0 0 -1px var(--border-color),
+              0 0 0 1px var(--border-color) !important;
 }
 
 .card-progress-section {
